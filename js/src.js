@@ -5,7 +5,9 @@ function getBoxSz(){
     numBox = prompt("Enter a box size, max: 100", 20);
     while(numBox < 0 || numBox > 100){
         numBox = prompt("Enter a box size, MAX: 100", 20);
+        console.log(numBox)
     }
+    numBox = numBox ?? 20;
 }
 
 function DynamicPageCalc(numBox){
@@ -20,6 +22,8 @@ function pushBoxes(){
     let box = document.createElement("div")
     box.classList.toggle("grid-ele")
 
+    DynamicPageCalc(numBox)
+
     let clone;
     for(let i = 0; i < numBox * numBox; i++){
         clone = box.cloneNode(true)
@@ -27,13 +31,20 @@ function pushBoxes(){
 
         //listener
         clone.addEventListener('mouseover', function(e){
-            e.target.style['background-color'] = "#000"
+            e.target.style['background-color'] = "#000";
+            e.target.classList.toggle("colored");
         }, {once: true})
 
         main.appendChild(clone)
     }
 }
+function reset(){
 
-getBoxSz()
+    console.log("called")
+    let gridLst = document.querySelectorAll(".grid-ele")
+    gridLst.forEach((gl) => {gl.remove()})
+    getBoxSz();
+    pushBoxes()
+}
+
 pushBoxes()
-DynamicPageCalc(numBox)
