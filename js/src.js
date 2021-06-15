@@ -2,6 +2,7 @@ boxWdth = 700
 numBox = 16;
 erasor = 0;
 rainbow = 0;
+drawMode = 0;
 colorMain = "#000";
 
 function getcolor(){
@@ -27,6 +28,15 @@ function DynamicPageCalc(numBox){
 
 function pushBoxes(){
     let main = document.querySelector(".grid-basis")
+
+    main.addEventListener("mousedown", function(e){
+        drawMode = 1;
+        console.log("Engaged");
+    })
+    main.addEventListener("mouseup", function(e){
+        drawMode = 0;
+        console.log("DeEngaged");
+    })
     let box = document.createElement("div")
     box.classList.toggle("grid-ele")
 
@@ -38,8 +48,8 @@ function pushBoxes(){
         clone.style['background-color'] = 'white'
 
         //listener
-        clone.addEventListener('mousedown', function(e){
-            if (!(e.target.classList.contains("colored"))){
+        clone.addEventListener('mouseover', function(e){
+            if (!(e.target.classList.contains("colored")) && drawMode){
                 e.target.style['background-color'] = getcolor()
                 e.target.classList.add("colored");
             }
