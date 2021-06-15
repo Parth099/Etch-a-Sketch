@@ -5,7 +5,7 @@
 }
 body {
 	background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-	background-size: 200% 200%;
+	background-size: 400% 400%;
 	animation: gradient 15s ease infinite;
 
     color: white;
@@ -103,15 +103,15 @@ body {
     margin-bottom: 10px;
 }
 .btn:hover{
-    background: rgb(0, 114, 180) ;
-    color: none
+    background: rgba(0, 0, 0, 0.15);
 }
 input[type=color]{
     width: 50px;
     height: 20px;
-    outline: none;
+    outline: 0px;
     background-color: rgba(0,0,0,0);
-    border: none;
+    border: .5px solid white;
+    border-radius: 3px;
     position: relative;
     top: 2px;
     margin: 0;
