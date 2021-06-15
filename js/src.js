@@ -1,11 +1,11 @@
-boxWdth = 700
-numBox = 16;
-erasor = 0;
-rainbow = 0;
-drawMode = 0;
-colorMain = "#000";
+var boxWdth = 700;
+var numBox = 16;
+var erasor = 0;
+var rainbow = 0;
+var drawMode = 0;
+var colorMain = "#000";
 
-function getcolor(){
+function getColor(){
     return (rainbow) ? "#"+Math.floor(Math.random()*16777215).toString(16): colorMain;
 }
 function getBoxSz(flag = 1){
@@ -26,34 +26,33 @@ function DynamicPageCalc(numBox){
     root.style.setProperty("--bksz", `${boxWdth / numBox}px`)
 }
 
-function pushBoxes(){
-    let main = document.querySelector(".grid-basis")
-
-    main.addEventListener("mousedown", function(e){
-        drawMode = 1;
-        console.log("Engaged");
-    })
-    main.addEventListener("mouseup", function(e){
-        drawMode = 0;
-        console.log("DeEngaged");
-    })
+function pushBoxes(main){
     let box = document.createElement("div")
     box.classList.toggle("grid-ele")
 
+    main = document.querySelector(".grid-basis");
     DynamicPageCalc(numBox)
 
     let clone;
     for(let i = 0; i < numBox * numBox; i++){
         clone = box.cloneNode(true)
-        clone.style['background-color'] = 'white'
-
+        clone.style['background-color'] = 'white';
+        clone.setAttribute("draggable", "false");
         //listener
+
+        clone.addEventListener("mousedown", function(e){
+            drawMode ^= 1;
+            console.log("Engaged", drawMode);
+        });
+
         clone.addEventListener('mouseover', function(e){
-            if (!(e.target.classList.contains("colored")) && drawMode){
-                e.target.style['background-color'] = getcolor()
+            if (!(e.target.classList.contains("colored")) && drawMode && !erasor){
+                console.log("hit")
+                e.target.style['background-color'] = getColor()
                 e.target.classList.add("colored");
             }
-            if(erasor){
+            else if(erasor && drawMode){
+                console.log("Erasing");
                 e.target.style['background-color'] = "#fff"
                 e.target.classList.remove("colored");
             }
@@ -62,9 +61,12 @@ function pushBoxes(){
         main.appendChild(clone)
     }
 }
-function reset(){
+function resetFreeVars(){
     erasor = 0;
     rainbow = 0;
+}
+function reset(){
+    resetFreeVars()
     let gridLst = document.querySelectorAll(".grid-ele")
     gridLst.forEach((gl) => {gl.remove()})
     getBoxSz();
@@ -72,17 +74,24 @@ function reset(){
 }
 
 function erase(){
+    resetFreeVars()
+    drawMode = 1;
     erasor = 1;
-    rainbow = 0;
+
 }
 function rainbowMode(){
-    erasor = 0
+    resetFreeVars()
     rainbow = 1;
 }
-var cpp = document.getElementById("cpp")
-cpp.addEventListener("change", function(e){
-    colorMain = e.target.value;
-    rainbow = 0;
-});
 
-pushBoxes()
+function main(){
+    var cpp = document.getElementById("cpp")
+    cpp.addEventListener("change", function(e){
+        resetFreeVars()
+        colorMain = e.target.value;
+    });
+    colorMain = cpp.value;
+    pushBoxes()
+}
+
+main()

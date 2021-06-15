@@ -50,9 +50,13 @@ body {
     width: var(--bksz);
     height: var(--bksz);
 }
+.grid-ele:hover{
+    background-color: #23d5ab;
+}
+
 .colored{
     animation-name: "fade-in";
-    animation-duration: .5s;
+    animation-duration: .25s;
     animation-iteration-count: 1;
 }
 @keyframes fade-in{
