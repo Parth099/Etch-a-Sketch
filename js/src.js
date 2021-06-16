@@ -62,6 +62,8 @@ function pushColor(e){
         else if(erasor && drawMode){
             e.target.style['background-color'] = "#fff";
             e.target.classList.remove("colored");
+            e.target.classList.remove("written"); //for graymode
+            e.target.dataset.grayscale = 0;
         }
     }
     else{
